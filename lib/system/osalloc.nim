@@ -191,7 +191,7 @@ elif defined(nintendoswitch) and not defined(StandaloneHeapSize):
     when reallyOsDealloc:
       freeMem(p)
 
-elif defined(posix) and not defined(StandaloneHeapSize):
+elif defined(posix) and not defined(StandaloneHeapSize) and not defined(tinspire):
   const
     PROT_READ  = 1             # page can be read
     PROT_WRITE = 2             # page can be written
@@ -274,7 +274,7 @@ elif defined(windows) and not defined(StandaloneHeapSize):
         quit 1
     #VirtualFree(p, size, MEM_DECOMMIT)
 
-elif hostOS == "standalone" or defined(StandaloneHeapSize):
+elif hostOS == "standalone" or defined(StandaloneHeapSize) or defined(tinspire):
   const StandaloneHeapSize {.intdefine.}: int = 1024 * PageSize
   var
     theHeap: array[StandaloneHeapSize div sizeof(float64), float64] # 'float64' for alignment

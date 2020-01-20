@@ -40,7 +40,7 @@ type
     none, dos, windows, os2, linux, morphos, skyos, solaris,
     irix, netbsd, freebsd, openbsd, aix, palmos, qnx, amiga,
     atari, netware, macos, macosx, haiku, android, js, nimVM,
-    standalone, nintendoswitch
+    standalone, nintendoswitch, tinspire
 
 const
   targetOS* = when defined(windows): OsPlatform.windows
@@ -68,6 +68,7 @@ const
               elif defined(nimVM): OsPlatform.nimVM
               elif defined(standalone): OsPlatform.standalone
               elif defined(nintendoswitch): OsPlatform.nintendoswitch
+              elif defined(tinspire): OsPlatform.tinspire
               else: OsPlatform.none
     ## the OS this program will run on.
 

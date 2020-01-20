@@ -418,7 +418,7 @@ proc isDefined*(conf: ConfigRef; symbol: string): bool =
                             osQnx, osAtari, osAix,
                             osHaiku, osVxWorks, osSolaris, osNetbsd,
                             osFreebsd, osOpenbsd, osDragonfly, osMacosx, osIos,
-                            osAndroid, osNintendoSwitch}
+                            osAndroid, osNintendoSwitch, osTINspire}
     of "linux":
       result = conf.target.targetOS in {osLinux, osAndroid}
     of "bsd":
