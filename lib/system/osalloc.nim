@@ -191,7 +191,23 @@ elif defined(nintendoswitch) and not defined(StandaloneHeapSize):
     when reallyOsDealloc:
       freeMem(p)
 
-elif defined(posix) and not defined(StandaloneHeapSize) and not defined(tinspire):
+elif defined(tinspire) and not defined(StandaloneHeapSize):
+
+  proc malloc(size: int): pointer {.importc: "malloc", header: "<stdlib.h>".}
+  proc free(p: pointer) {.importc: "free", header: "<stdlib.h>".}
+
+  proc osAllocPages(size: int): pointer {.inline.} =
+    result = malloc(size)
+    if result == nil:
+      raiseOutOfMem()
+
+  proc osTryAllocPages(size: int): pointer {.inline.} =
+    malloc(size)
+
+  proc osDeallocPages(p: pointer, size: int) {.inline.} =
+    free(p)
+
+elif defined(posix) and not defined(StandaloneHeapSize):
   const
     PROT_READ  = 1             # page can be read
     PROT_WRITE = 2             # page can be written
@@ -274,7 +290,7 @@ elif defined(windows) and not defined(StandaloneHeapSize):
         quit 1
     #VirtualFree(p, size, MEM_DECOMMIT)
 
-elif hostOS == "standalone" or defined(StandaloneHeapSize) or defined(tinspire):
+elif hostOS == "standalone" or defined(StandaloneHeapSize):
   const StandaloneHeapSize {.intdefine.}: int = 1024 * PageSize
   var
     theHeap: array[StandaloneHeapSize div sizeof(float64), float64] # 'float64' for alignment
